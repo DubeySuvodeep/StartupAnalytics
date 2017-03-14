@@ -1,0 +1,42 @@
+path='C:\\Users\\suvod\\Downloads\\sqlite-tools-win32-x86-3160200\\sqlite-tools-win32-x86-3160200\\angel_companies.db'
+
+def company():
+    import pandas as pd
+	conn = sqlite3.connect('C:\\Users\\suvod\\Downloads\\sqlite-tools-win32-x86-3160200\\sqlite-tools-win32-x86-3160200\\angel_companies.db')
+	cursor = conn.execute("Select * from company")
+	company=[]
+	for row in cursor:
+		company.append(list(row))
+    return company
+	
+cmp1 = company() 
+
+df = pd.DataFrame(cmp1)
+
+df.to_excel('E:\\Ray&Co\\abc1.xlsx','sheet1') 
+
+	
+--------------------------------------------------------------------------------------------------------------------------------------------	
+
+cmp_csv = pd.read_csv('E:\\Ray&Co\\COMPANY.txt') 
+
+def company():
+	conn = sqlite3.connect('C:\\Users\\suvod\\Downloads\\sqlite-tools-win32-x86-3160200\\sqlite-tools-win32-x86-3160200\\angel_companies.db')
+	table = ['company','company_founder','company_links','company_location','company_market','founder','funding','location','market','product']
+	l = len(table)
+	sheets=[]
+	for i in range(l):
+		cursor = conn.execute("Select * from {}".format(table[i]))
+		company=[]
+		for row in cursor:
+			company.append(list(row))
+		sheets.append(company)
+	return sheets
+	
+def create_excels(sheets):
+	import pandas as pd
+	l = len(sheets)
+	for i in range(l):
+		df = pd.DataFrame(sheets[i])
+		df.to_excel('E:\\Ray&Co\\angel_companies{}.xlsx'.format(i),'sheet{}'.format(i))
+	
